@@ -240,21 +240,6 @@ as.h5Seurat.Seurat <- function(
   # Add attributes for project and default assay
   Project(object = hfile) <- Project(object = x)
   DefaultAssay(object = hfile) <- DefaultAssay(object = x)
-  # Add Images
-  if (package_version(x = object.version) >= package_version(x = spatial.version)) {
-    # Older versions of Seurat don't have Images, call directly instead
-    for (image in Seurat::Images(object = x)) {
-      if (verbose) {
-        message("Adding image ", image)
-      }
-      WriteH5Group(
-        x = x[[image]],
-        name = image,
-        hgroup = hfile[['images']],
-        verbose = verbose
-      )
-    }
-  }
   # Add metadata, cell names, and identity classes
   WriteH5Group(x = x[[]], name = 'meta.data', hgroup = hfile, verbose = verbose)
   WriteH5Group(
